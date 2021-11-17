@@ -36,6 +36,7 @@ pub fn initialize_board() -> Vec<Vec<Option<Box<dyn Piece>>>> {
 	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 4))));
 	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 5))));
 	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 6))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 7))));
 
 
 	let mut white_back_row: Vec<Option<Box<dyn Piece>>> = Vec::new();
@@ -165,7 +166,6 @@ impl fmt::Display for Board {
 		let mut ct = 1;
 		let m = self.piece_locations.len();
 		let n = self.piece_locations[0].len();
-		println!("{} {}", m, n);
 
 		for i in 0..m {
 			result = result.to_owned() + &format!("{}   ", Colour::Blue.paint(ct.to_string()));

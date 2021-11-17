@@ -18,4 +18,6 @@ pub trait Piece {
 	fn remove_piece(&mut self) {
 
 	}
+
+	fn piece_to_string(&self) -> String;
 }

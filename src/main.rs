@@ -6,4 +6,7 @@ fn main() {
         Colour::Blue.paint("blue"),
         Colour::Green.paint("green")
     );
+    
+    let s = Colour::Red.paint("red").to_string();
+    println!("{}", s);
 }

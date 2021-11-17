@@ -30,6 +30,13 @@ impl Piece for Rook {
 	fn remove_piece(&mut self) {
 		 
 	}
+
+	fn piece_to_string(&self) -> String {
+		match &self.color {
+			Color::White => Colour::White.paint("♖").to_string(),
+			Color::Brown => Colour::RGB(165, 42, 42).paint("♖").to_string(),
+		}
+	}
 }
 
 

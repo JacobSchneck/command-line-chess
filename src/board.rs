@@ -163,12 +163,21 @@ impl fmt::Display for Board {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		let mut result = String::from("\n");
 		let mut ct = 1;
-		for row in &self.board_colors {
+		let m = self.piece_locations.len();
+		let n = self.piece_locations[0].len();
+		println!("{} {}", m, n);
+
+		for i in 0..m {
 			result = result.to_owned() + &format!("{}   ", Colour::Blue.paint(ct.to_string()));
-			for space in row {
-				match space {
-					Color::White => { result = result.to_owned() + &format!("{} ", Colour::White.paint("x")) }
-					Color::Brown => { result = result.to_owned() + &format!("{} ", Colour::RGB(165, 42, 42).paint("x")) }
+			for j in 0..n {
+				match &self.piece_locations[i][j] {
+					Some(piece) => { result = result.to_owned() + &format!("{} ", piece.piece_to_string())}
+					None => {
+						match &self.board_colors[i][j] {
+							Color::White => { result = result.to_owned() + &format!("{} ", Colour::White.paint("-")) }
+							Color::Brown => { result = result.to_owned() + &format!("{} ", Colour::RGB(165, 42, 42).paint("-")) }
+						}
+					}
 				}
 			}
 			result = result.to_owned() + &format!("\n");
@@ -188,7 +197,7 @@ pub mod test_board {
 
 	#[test]
 	fn test_display() {
-		// let board = Board::new();
-		// println!("{:?}", board);
+		let board = Board::new();
+		println!("{}", board);
 	}
 }

@@ -1,22 +1,125 @@
-#![allow(unused_variables)]
+#![allow(
+	unused_variables,
+	unused_imports,
+	dead_code,
+)]
 
 use std::{fmt, vec};
 use ansi_term::Colour;
 use crate::{
 	enums::color::Color, 
-	pieces::pawn::Pawn
+	pieces::pawn::Pawn,
+	pieces::bishop::Bishop,
+	pieces::knight::Knight,
+	pieces::rook::Rook,
+	pieces::queen::Queen,
+	pieces::king::King,
+	pieces::traits::Piece
 };
 
-type PieceLocations<'a, T> = Vec<Vec<Option<&'a T>>>;
+pub fn initialize_board() -> Vec<Vec<Option<Box<dyn Piece>>>> {
+	let mut white_pawns: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 0))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 1))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 2))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 3))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 4))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 5))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 6))));
+	white_pawns.push(Some(Box::new(Pawn::new(Color::White, 6, 7))));
 
-#[derive(Debug, Clone)]
-pub struct Board<'a, T> {
+	let mut brown_pawns: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 0))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 1))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 2))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 3))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 4))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 5))));
+	brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 1, 6))));
+
+
+	let mut white_back_row: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	white_back_row.push(Some(Box::new(  Rook::new(Color::White, 7, 0))));
+	white_back_row.push(Some(Box::new(Knight::new(Color::White, 7, 1))));
+	white_back_row.push(Some(Box::new(Bishop::new(Color::White, 7, 2))));
+	white_back_row.push(Some(Box::new( Queen::new(Color::White, 7, 3))));
+	white_back_row.push(Some(Box::new(  King::new(Color::White, 7, 4))));
+	white_back_row.push(Some(Box::new(Bishop::new(Color::White, 7, 5))));
+	white_back_row.push(Some(Box::new(Knight::new(Color::White, 7, 6))));
+	white_back_row.push(Some(Box::new(  Rook::new(Color::White, 7, 7))));
+
+	let mut brown_back_row: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown, 0, 0))));
+	brown_back_row.push(Some(Box::new(Knight::new(Color::Brown, 0, 1))));
+	brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown, 0, 2))));
+	brown_back_row.push(Some(Box::new( Queen::new(Color::Brown, 0, 3))));
+	brown_back_row.push(Some(Box::new(  King::new(Color::Brown, 0, 4))));
+	brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown, 0, 5))));
+	brown_back_row.push(Some(Box::new(Knight::new(Color::Brown, 0, 6))));
+	brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown, 0, 7))));
+
+	let mut empty_row_one: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+	empty_row_one.push(None);
+
+	let mut empty_row_two: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+	empty_row_two.push(None);
+
+	let mut empty_row_three: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+	empty_row_three.push(None);
+
+	let mut empty_row_four: Vec<Option<Box<dyn Piece>>> = Vec::new();
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+	empty_row_four.push(None);
+
+	let mut board: Vec<Vec<Option<Box<dyn Piece>>>> = Vec::new();
+	board.push(brown_back_row);
+	board.push(brown_pawns);
+	board.push(empty_row_one);
+	board.push(empty_row_two);
+	board.push(empty_row_three);
+	board.push(empty_row_four);
+	board.push(white_pawns);
+	board.push(white_back_row);
+
+	board
+}
+
+#[derive()]
+pub struct Board {
 	board_colors: Vec<Vec<Color>>,
-	piece_locations: PieceLocations<'a, T>
+	piece_locations: Vec<Vec<Option<Box<dyn Piece>>>>,
 }
 
 // T must implement move and remove
-impl<'a, T> Board<'a, T> {
+impl Board {
+
 	pub fn new() -> Self {
 		// board colors
 		let row_one = vec![
@@ -40,8 +143,6 @@ impl<'a, T> Board<'a, T> {
 			Color::White 
 		];
 
-
-
 		let mut board_colors = Vec::new();
 		for i in 0..8 {
 			match i % 2 {
@@ -51,31 +152,14 @@ impl<'a, T> Board<'a, T> {
 			};
 		}
 
-		let white_pawn_row = vec![Pawn::new(Color::White); 8];
-		let brown = vec![Pawn::new(Color::Brown); 8];
-
-		// let white_back_row = vec![];
-		// let brown_back_row = vec![];
-
-		// let mut pieces: PieceLocations<T> = vec![
-		// 	vec![],
-		// 	vec![],
-		// 	vec![None; 8],
-		// 	vec![None; 8],
-		// 	vec![None; 8],
-		// 	vec![None; 8],
-		// 	vec![Some(&Pawn::new(Color::White)); 8],
-		// 	vec![]
-		// ] 
-		
 		Board {
 			board_colors,
-			piece_locations: vec![],
+			piece_locations: initialize_board()
 		}
 	}
 }
 
-impl<'a, T> fmt::Display for Board<'a, T> {
+impl fmt::Display for Board {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		let mut result = String::from("\n");
 		let mut ct = 1;

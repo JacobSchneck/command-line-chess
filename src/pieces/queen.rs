@@ -1,9 +1,35 @@
+#![allow(
+	dead_code
+)]
+
 use crate::enums::color::Color;
 use ansi_term::Colour;
 use std::fmt;
 
+use super::{location::Location, traits::Piece};
+
 pub struct Queen {
 	color: Color,
+	location: Location,
+}
+
+impl Queen {
+	pub fn new(color: Color, row: usize, col: usize) -> Self {
+		Queen { 
+			color,
+			location: Location { row, col }
+		}
+	}
+}
+
+impl Piece for Queen {
+	fn move_piece(&mut self) {
+		 
+	}
+
+	fn remove_piece(&mut self) {
+		 
+	}
 }
 
 impl fmt::Display for Queen {
@@ -17,12 +43,13 @@ impl fmt::Display for Queen {
 
 #[cfg(test)]
 mod test_queen {
+	#[allow(unused_imports)]
 	use super::*;
 
 	#[test]
 	fn test_display() {
-		let queen = Queen { color: Color::White};	
-		let queen2 = Queen { color: Color::Brown};	
-		print!("{} {}\n", queen, queen2);
+		// let queen = Queen { color: Color::White};	
+		// let queen2 = Queen { color: Color::Brown};	
+		// print!("{} {}\n", queen, queen2);
 	}
 }

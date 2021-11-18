@@ -20,8 +20,35 @@ impl Pawn {
 }
 
 impl Piece for Pawn {
-	fn move_piece(&mut self) {
-		 
+	fn move_piece(&mut self, to: Location, board: Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+		// // Handle Invalid moves
+		// if to.row >= board.len() || { // 
+		// 	return Err("Invalid Move");
+		// if (self.location.row as i32 - to.row as i32).abs() > 2 { // no moving more than 2 spaces at once
+		// 	return Err("Invalid Move");
+		// } else if (self.location.row as i32 - to.row as i32).abs() > 1 && (self.location.col as i32 - to.col as i32).abs() > 1 { // move diagonally case
+		// 	match &board[to.row][to.col] {
+		// 		Some(p) => {
+		// 			if p.get_color() == self.get_color() {
+		// 				return Err("Invalid Move");
+		// 			}
+		// 		},
+		// 		None => return Err("Invalid Move")
+		// 	}
+		// 	return Ok(true);
+		// } else if to.col != self.location.col { // can't move diagonally unless opponent piece is off by one 
+		// 	return Err("Invalid Move");
+		// } else if ()
+		match &to.row {
+			0..=7 => println!("HELLO"),
+			_ => return Err("Invalid Move"),
+		};
+
+		Ok(false)
+	}
+
+	fn get_color(&self) -> Color {
+		self.color
 	}
 
 	fn remove_piece(&mut self) {

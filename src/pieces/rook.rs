@@ -23,8 +23,12 @@ impl Rook {
 }
 
 impl Piece for Rook {
-	fn move_piece(&mut self) {
+	// fn move_piece(&mut self) {
 		 
+	// }
+
+	fn get_color(&self) -> Color {
+		self.color
 	}
 
 	fn remove_piece(&mut self) {

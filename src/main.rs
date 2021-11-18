@@ -1,12 +1,7 @@
 use ansi_term::Colour;
+use command_line_chess::chess::Chess;
 
 fn main() {
-    println!("This is {} in color, {} in color and {} in color",
-        Colour::Red.paint("red"),
-        Colour::Blue.paint("blue"),
-        Colour::Green.paint("green")
-    );
-    
-    let s = Colour::Red.paint("red").to_string();
-    println!("{}", s);
+    let chess = Chess::new();
+    chess.play();
 }

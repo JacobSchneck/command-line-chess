@@ -35,8 +35,8 @@ pub fn convert_indicies_to_chess_notation(loc: Location) -> Result<String, &'sta
 	}; 
 
 	let row = loc.row + 1; 
-	let col = (loc.row as u8 + 65) as char;
-	let result = format!("{}{}", row, col);
+	let col = (loc.row as u8 + 64) as char;
+	let result = format!("{}{}", col, row);
 	return Ok(result);
 }
 
@@ -64,6 +64,7 @@ mod test_utils {
 
 	#[test]
 	fn test_convert_indicies_to_chess_notation() {
-
+		assert_eq!(convert_indicies_to_chess_notation(Location {row: 1, col: 0}), Ok("A2".to_string()));
+		assert_eq!(convert_indicies_to_chess_notation(Location {row: 9, col: 0}), Err("Invalid indicies"));
 	}
 }

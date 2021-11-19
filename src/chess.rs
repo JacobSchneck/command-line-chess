@@ -45,17 +45,18 @@ impl Chess {
 		println!("For help type help");
 	}
 
-	fn execute_command(command: &str) {
+	fn execute_command(&mut self, command: &str) {
 		// parse command
 		let split_command: Vec<String> = command.split(' ').map(String::from).collect();
 		println!("{:?}", split_command);
 		let piece = str_to_pieces(split_command[0].chars().nth(0).unwrap()).expect("Invalid Command");
-		let to = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
-		let from = convert_chess_notation_to_indicies(&split_command[2]).unwrap();
-		// board.make_move(player);
+		let from = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
+		let to = convert_chess_notation_to_indicies(&split_command[2]).unwrap();
+		println!("{:?} {:?}", to, from);
+		self.board.make_move(piece, to, from).unwrap();
 	}
 
-	pub fn play(&self) {
+	pub fn play(&mut self) {
 		Chess::help();
 		let re = Regex::new(r"[pbnrqkPBNRQK] [a-hA-H][1-8] [a-hA-H][1-8]").unwrap();
 		loop {
@@ -65,7 +66,7 @@ impl Chess {
 			println!();
 			if re.is_match(&line) {
 				println!("Executing line");
-				Chess::execute_command(&line);
+				self.execute_command(&line);
 			}
 			else if line == "help" {
 				Chess::help();

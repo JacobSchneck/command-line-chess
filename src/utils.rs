@@ -4,7 +4,7 @@
 )]
 
 use std::io::{Write};
-use crate::{enums::pieces::Pieces, pieces::location::{self, Location}};
+use crate::{enums::pieces::Pieces, pieces::location::Location};
 use regex::{Regex};
 
 pub fn get_line() -> String {

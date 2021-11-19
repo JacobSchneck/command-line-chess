@@ -6,12 +6,10 @@
 
 use std::{fmt, vec};
 use ansi_term::Colour;
-use crate::{
-	enums::{
+use crate::{enums::{
 		color::Color,
 		pieces::Pieces,
-	},
-	pieces::{
+	}, pieces::{
 
 		pawn::Pawn,
 		bishop::Bishop,
@@ -21,8 +19,7 @@ use crate::{
 		king::King,
 		traits::Piece,
 		location::Location,
-	}
-};
+	}, utils::convert_indicies_to_chess_notation};
 
 #[derive()]
 pub struct Board {
@@ -71,12 +68,19 @@ impl Board {
 		}
 	}
 
-	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location) {
-		// match self.piece_locations[from.row][from. col].as_ref() {
-		// 	Some(piece_to_move) => ,
-		// 	None => println!("No piece at {}", )
-		// }
-		
+	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location) -> Result<(), String> {
+		match self.piece_locations[from.row][from. col].take() {
+			Some(piece_to_move) => {
+				self.piece_locations[from.row][from.col] = None;
+				self.piece_locations[to.row][to.col] = Some(piece_to_move);
+				return Ok(());
+			}, // TODO: Move pieces
+			// None => return Err(format!("No piece at {}", convert_indicies_to_chess_notation(from).unwrap())), // error case should be handled up stack
+			None => {
+				let err_msg = format!("No piece at {}", convert_indicies_to_chess_notation(from).unwrap());
+				return Err(err_msg);
+			}
+		}
 	}
 
 	fn initialize_board() -> Vec<Vec<Option<Box<dyn Piece>>>> {

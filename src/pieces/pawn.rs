@@ -1,3 +1,7 @@
+#![allow(
+	unused_variables
+)]
+
 use crate::enums::color::Color;
 use ansi_term::Colour;
 use std::fmt;

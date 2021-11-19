@@ -1,4 +1,3 @@
-use ansi_term::Colour;
 use command_line_chess::chess::Chess;
 
 fn main() {

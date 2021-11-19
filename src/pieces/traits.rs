@@ -1,3 +1,7 @@
+#![allow(
+	unused_variables,
+)]
+
 use super::location::Location;
 use crate::enums::color::Color;
 

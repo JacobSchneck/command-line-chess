@@ -6,11 +6,12 @@
 
 use std::{fmt, vec};
 use ansi_term::Colour;
-use crate::{enums::{
+use crate::{
+	enums::{
 		color::Color,
 		pieces::Pieces,
-	}, pieces::{
-
+	}, 
+	pieces::{
 		pawn::Pawn,
 		bishop::Bishop,
 		knight::Knight,
@@ -19,7 +20,12 @@ use crate::{enums::{
 		king::King,
 		traits::Piece,
 		location::Location,
-	}, utils::convert_indicies_to_chess_notation};
+	}, 
+	utils::{
+		convert_indicies_to_chess_notation,
+		piece_check,
+	}
+};
 
 #[derive()]
 pub struct Board {
@@ -29,7 +35,6 @@ pub struct Board {
 
 // T must implement move and remove
 impl Board {
-
 	pub fn new() -> Self {
 		// board colors
 		let row_one = vec![
@@ -71,6 +76,9 @@ impl Board {
 	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location) -> Result<(), String> {
 		match self.piece_locations[from.row][from. col].take() {
 			Some(piece_to_move) => {
+				if !piece_check(piece, &piece_to_move, piece_to_move.get_color()) {
+					return Err("Piece intended to move does not match piece at location".to_string());
+				}
 				self.piece_locations[from.row][from.col] = None;
 				self.piece_locations[to.row][to.col] = Some(piece_to_move);
 				return Ok(());

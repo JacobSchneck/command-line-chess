@@ -1,10 +1,21 @@
 #![allow(
 	unused_must_use,
-	unused_variables
-)]
+	unused_variables,
+	unused_imports,)]
 
 use std::io::{Write};
-use crate::{enums::pieces::Pieces, pieces::location::Location};
+use ansi_term::Colour;
+use crate::{
+	enums::{
+		color::Color,
+		pieces::Pieces, 
+	},
+	pieces::{
+		pawn::Pawn,
+		traits::Piece,
+		location::Location,
+	}
+};
 use regex::{Regex};
 
 pub fn get_line() -> String {
@@ -52,6 +63,26 @@ pub fn str_to_pieces(ch: char) -> Option<Pieces> {
 	}
 }
 
+pub fn piece_check(piece: Pieces, piece_to_move: &Box<dyn Piece>, color: Color) -> bool {
+	let piece_as_string: &str;  
+	match piece {
+		Pieces::Pawn => piece_as_string = "♙",
+		Pieces::Bishop => piece_as_string = "♗",
+		Pieces::Knight => piece_as_string = "♘",
+		Pieces::Rook => piece_as_string = "♖",
+		Pieces::Queen => piece_as_string = "♕",
+		Pieces::King => piece_as_string = "♔",
+	};
+
+	let p: String;
+	match color {
+		Color::White => p = Colour::White.paint(piece_as_string).to_string(),
+		Color::Brown => p = Colour::RGB(165, 42, 42).paint(piece_as_string).to_string(),
+	}
+
+	return p.eq(piece_to_move.piece_to_string().trim());
+}
+
 #[cfg(test)]
 mod test_utils {
 	use super::*;
@@ -66,5 +97,12 @@ mod test_utils {
 	fn test_convert_indicies_to_chess_notation() {
 		assert_eq!(convert_indicies_to_chess_notation(Location {row: 1, col: 0}), Ok("A2".to_string()));
 		assert_eq!(convert_indicies_to_chess_notation(Location {row: 9, col: 0}), Err("Invalid indicies"));
+	}
+
+	#[test]
+	fn test_piece_check() {
+		let piece_trait_object: Box<dyn Piece> = Box::new(Pawn::new(Color::White, 0, 0));
+		assert_eq!(piece_check(Pieces::Pawn, &piece_trait_object, Color::White), true);
+		assert_eq!(piece_check(Pieces::Rook, &piece_trait_object, Color::White), false);
 	}
 }

@@ -53,7 +53,16 @@ impl Chess {
 		let from = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
 		let to = convert_chess_notation_to_indicies(&split_command[2]).unwrap();
 		println!("{:?} {:?}", to, from);
-		self.board.make_move(piece, to, from).unwrap();
+		match self.board.make_move(piece, to, from) {
+			Ok(_) => {
+				if self.turn == Color::White {
+					self.turn = Color::Brown;
+				} else {
+					self.turn = Color::White;
+				}
+			},
+			Err(e) => eprintln!("{}", e),
+		}
 	}
 
 	pub fn play(&mut self) {

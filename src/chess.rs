@@ -48,12 +48,12 @@ impl Chess {
 	fn execute_command(&mut self, command: &str) {
 		// parse command
 		let split_command: Vec<String> = command.split(' ').map(String::from).collect();
-		println!("{:?}", split_command);
+		// println!("{:?}", split_command);
 		let piece = str_to_pieces(split_command[0].chars().nth(0).unwrap()).expect("Invalid Command");
 		let from = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
 		let to = convert_chess_notation_to_indicies(&split_command[2]).unwrap();
-		println!("{:?} {:?}", to, from);
-		match self.board.make_move(piece, to, from) {
+		// println!("{:?} {:?}", to, from);
+		match self.board.make_move(piece, to, from, self.turn) {
 			Ok(_) => {
 				if self.turn == Color::White {
 					self.turn = Color::Brown;
@@ -74,7 +74,6 @@ impl Chess {
 			let line = get_line();
 			println!();
 			if re.is_match(&line) {
-				println!("Executing line");
 				self.execute_command(&line);
 			}
 			else if line == "help" {

@@ -73,12 +73,28 @@ impl Board {
 		}
 	}
 
-	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location) -> Result<(), String> {
+	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location, color: Color) -> Result<(), String> {
 		match self.piece_locations[from.row][from. col].take() {
 			Some(piece_to_move) => {
+				// catching incorrect moves
 				if !piece_check(piece, &piece_to_move, piece_to_move.get_color()) {
+					self.piece_locations[from.row][from.col] = Some(piece_to_move);
 					return Err("Piece intended to move does not match piece at location".to_string());
+				} 
+				if piece_to_move.get_color() != color {
+					self.piece_locations[from.row][from.col] = Some(piece_to_move);
+					match color {
+						Color::White => return Err(format!("Wrong color it is White's turn")),
+						Color::Brown => return Err(format!("Wrong color it is Brown's turn")),
+					};
 				}
+				if let Some(p) = &self.piece_locations[to.row][to.col] {
+					if p.get_color() == color {
+						self.piece_locations[from.row][from.col] = Some(piece_to_move);
+						return Err("There is no friendly fire in chess my dude, go again".to_string());
+					}
+				}
+
 				self.piece_locations[from.row][from.col] = None;
 				self.piece_locations[to.row][to.col] = Some(piece_to_move);
 				return Ok(());

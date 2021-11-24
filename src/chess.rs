@@ -48,7 +48,6 @@ impl Chess {
 	fn execute_command(&mut self, command: &str) {
 		// parse command
 		let split_command: Vec<String> = command.split(' ').map(String::from).collect();
-		// println!("{:?}", split_command);
 		let piece = str_to_pieces(split_command[0].chars().nth(0).unwrap()).expect("Invalid Command");
 		let from = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
 		let to = convert_chess_notation_to_indicies(&split_command[2]).unwrap();

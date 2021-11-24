@@ -2,6 +2,9 @@
 	dead_code,
 	unused_variables,
 )]
+#![allow(
+	dead_code
+)]
 
 use crate::enums::color::Color;
 use ansi_term::Colour;
@@ -24,7 +27,7 @@ impl Rook {
 }
 
 impl Piece for Rook {
-	fn move_piece(&mut self, to: Location, from: Location, board: &Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
 		Ok(false)
 	}
 

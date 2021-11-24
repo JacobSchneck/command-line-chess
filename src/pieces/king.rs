@@ -1,9 +1,10 @@
 #![allow(
 	dead_code,
+	unused_imports,
 	unused_variables,
 )]
 
-use crate::enums::color::Color;
+use crate::{enums::color::Color, pieces::location};
 use ansi_term::Colour;
 use std::fmt;
 
@@ -24,8 +25,36 @@ impl King {
 }
 
 impl Piece for King {
-	fn move_piece(&mut self, to: Location, from: Location, board: &Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
-		Ok(false)
+	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+		let moves = vec![
+			vec![0, 1],
+			vec![0, -1],
+			vec![1, 0],
+			vec![-1, 0],
+			vec![1, 1],
+			vec![-1, 1],
+			vec![1, -1],
+			vec![-1, -1]
+		];
+		for move_set in moves {
+			let next_row = from.row as i32 + move_set[0];
+			let next_col = from.col as i32 + move_set[1];
+			if next_row >= board.len() as i32 || next_col >= board.len() as i32 { continue; } // move option is out of bounds
+			if next_row < 0 || next_col < 0 { continue; } // move option is out of bounds
+			if next_row as usize == to.row && next_col as usize == to.col {
+				match &board[next_row as usize][next_col as usize] {
+					Some(p) => {
+						if self.get_color() == p.get_color() {
+							return Err("There is no friendly fire in chess my dude, go again"); // redundant error handle is redundunt
+						} else {
+							return Ok(true);
+						}
+					},
+					None => return Ok(false),
+				}
+			}
+		}
+		Err("King can only move one space at a time")
 	}
 
 	fn get_color(&self) -> Color {

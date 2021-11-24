@@ -6,7 +6,7 @@ use super::location::Location;
 use crate::enums::color::Color;
 
 pub trait Piece {
-	fn move_piece(&mut self, to: Location, from: Location, board: &Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
 		Ok(false)
 	}
 

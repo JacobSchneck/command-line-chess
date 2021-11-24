@@ -74,17 +74,8 @@ impl Board {
 	}
 
 	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location, color: Color) -> Result<(), String> {
-		match self.piece_locations[from.row][from. col].take() {
-			Some(mut piece_to_move) => {
-				match piece_to_move.move_piece(to, from, &self.piece_locations) {
-					Ok(b) => (),
-					Err(e) => {
-						// self.piece_locations[from.row][from.col] = Some(piece_to_move);
-						return Err(e.to_string());
-					}
-				};
-
-				// catching incorrect moves
+		if let Some(mut piece_to_move) = self.piece_locations[from.row][from. col].take() {
+				// catching incorrect moves that are general (that is piece independent)
 				if !piece_check(piece, &piece_to_move, piece_to_move.get_color()) {
 					self.piece_locations[from.row][from.col] = Some(piece_to_move);
 					return Err("Piece intended to move does not match piece at location".to_string());
@@ -102,18 +93,30 @@ impl Board {
 						return Err("There is no friendly fire in chess my dude, go again".to_string());
 					}
 				}
-
+				
+				// piece dependent move check
+				let move_result = piece_to_move.move_piece(to, from, &mut self.piece_locations);
+				match move_result {
+					Ok(b) => {
+						if b {
+							// take piece							
+						} else {
+							// just make the move
+						}
+					},
+					Err(e) => {
+						self.piece_locations[from.row][from.col] = Some(piece_to_move);
+						return Err(e.to_string());
+					}
+				};
 				self.piece_locations[from.row][from.col] = None;
 				self.piece_locations[to.row][to.col] = Some(piece_to_move);
 				return Ok(());
-			}, // TODO: Move pieces
-			// None => return Err(format!("No piece at {}", convert_indicies_to_chess_notation(from).unwrap())), // error case should be handled up stack
-			None => {
+			} else {
 				let err_msg = format!("No piece at {}", convert_indicies_to_chess_notation(from).unwrap());
 				return Err(err_msg);
 			}
 		}
-	}
 
 	fn initialize_board() -> Vec<Vec<Option<Box<dyn Piece>>>> {
 		let mut white_pawns: Vec<Option<Box<dyn Piece>>> = Vec::new();

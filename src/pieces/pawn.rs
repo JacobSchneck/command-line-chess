@@ -24,7 +24,7 @@ impl Pawn {
 }
 
 impl Piece for Pawn {
-	fn move_piece(&mut self, to: Location, from: Location, board: &Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
 		if self.move_count == 0 && (to.row as i32 - from.row as i32).abs() > 2 {
 			return Err("Cannot move pawn more than two spaces on first move");
 		} else if self.move_count > 0 && (to.row as i32 - from.row as i32).abs() > 1 {

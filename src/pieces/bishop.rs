@@ -1,5 +1,6 @@
 #![allow(
-	dead_code
+	dead_code,
+	unused_variables,
 )]
 
 use crate::enums::color::Color;
@@ -10,29 +11,29 @@ use super::{location::Location, traits::Piece};
 
 pub struct Bishop {
 	color: Color,
-	location: Location,
+	move_count: u16,
 }
 
 impl Bishop {
-	pub fn new(color: Color, row: usize, col: usize) -> Self {
+	pub fn new(color: Color) -> Self {
 		Bishop { 
 			color,
-			location: Location { row, col }
+			move_count: 0,
 		}
 	}
 }
 
 impl Piece for Bishop {
-	// fn move_piece(&mut self) {
-		 
-	// }
+	fn move_piece(&mut self, to: Location, from: Location, board: &Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+		Ok(false)
+	}
 
 	fn get_color(&self) -> Color {
 		self.color
 	}
 
-	fn remove_piece(&mut self) {
-		 
+	fn remove_piece(&mut self) -> u32 {
+		3 
 	}
 
 	fn piece_to_string(&self) -> String {

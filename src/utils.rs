@@ -1,7 +1,8 @@
 #![allow(
 	unused_must_use,
 	unused_variables,
-	unused_imports,)]
+	unused_imports,
+)]
 
 use std::io::{Write};
 use ansi_term::Colour;
@@ -101,7 +102,7 @@ mod test_utils {
 
 	#[test]
 	fn test_piece_check() {
-		let piece_trait_object: Box<dyn Piece> = Box::new(Pawn::new(Color::White, 0, 0));
+		let piece_trait_object: Box<dyn Piece> = Box::new(Pawn::new(Color::White));
 		assert_eq!(piece_check(Pieces::Pawn, &piece_trait_object, Color::White), true);
 		assert_eq!(piece_check(Pieces::Rook, &piece_trait_object, Color::White), false);
 	}

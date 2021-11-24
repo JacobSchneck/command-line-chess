@@ -52,7 +52,7 @@ impl Chess {
 		let piece = str_to_pieces(split_command[0].chars().nth(0).unwrap()).expect("Invalid Command");
 		let from = convert_chess_notation_to_indicies(&split_command[1]).unwrap();
 		let to = convert_chess_notation_to_indicies(&split_command[2]).unwrap();
-		// println!("{:?} {:?}", to, from);
+
 		match self.board.make_move(piece, to, from, self.turn) {
 			Ok(_) => {
 				if self.turn == Color::White {

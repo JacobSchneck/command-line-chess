@@ -75,7 +75,15 @@ impl Board {
 
 	pub fn make_move(&mut self, piece: Pieces, to: Location, from: Location, color: Color) -> Result<(), String> {
 		match self.piece_locations[from.row][from. col].take() {
-			Some(piece_to_move) => {
+			Some(mut piece_to_move) => {
+				match piece_to_move.move_piece(to, from, &self.piece_locations) {
+					Ok(b) => (),
+					Err(e) => {
+						// self.piece_locations[from.row][from.col] = Some(piece_to_move);
+						return Err(e.to_string());
+					}
+				};
+
 				// catching incorrect moves
 				if !piece_check(piece, &piece_to_move, piece_to_move.get_color()) {
 					self.piece_locations[from.row][from.col] = Some(piece_to_move);
@@ -109,45 +117,45 @@ impl Board {
 
 	fn initialize_board() -> Vec<Vec<Option<Box<dyn Piece>>>> {
 		let mut white_pawns: Vec<Option<Box<dyn Piece>>> = Vec::new();
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 0))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 1))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 2))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 3))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 4))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 5))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 6))));
-		white_pawns.push(Some(Box::new(Pawn::new(Color::White, 7, 7))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
+		white_pawns.push(Some(Box::new(Pawn::new(Color::White))));
 
 		let mut brown_pawns: Vec<Option<Box<dyn Piece>>> = Vec::new();
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 0))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 1))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 2))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 3))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 4))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 5))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 6))));
-		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown, 6, 7))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
+		brown_pawns.push(Some(Box::new(Pawn::new(Color::Brown))));
 
 
 		let mut white_back_row: Vec<Option<Box<dyn Piece>>> = Vec::new();
-		white_back_row.push(Some(Box::new(  Rook::new(Color::White, 0, 0))));
-		white_back_row.push(Some(Box::new(Knight::new(Color::White, 0, 1))));
-		white_back_row.push(Some(Box::new(Bishop::new(Color::White, 0, 2))));
-		white_back_row.push(Some(Box::new( Queen::new(Color::White, 0, 3))));
-		white_back_row.push(Some(Box::new(  King::new(Color::White, 0, 4))));
-		white_back_row.push(Some(Box::new(Bishop::new(Color::White, 0, 5))));
-		white_back_row.push(Some(Box::new(Knight::new(Color::White, 0, 6))));
-		white_back_row.push(Some(Box::new(  Rook::new(Color::White, 0, 7))));
+		white_back_row.push(Some(Box::new(  Rook::new(Color::White))));
+		white_back_row.push(Some(Box::new(Knight::new(Color::White))));
+		white_back_row.push(Some(Box::new(Bishop::new(Color::White))));
+		white_back_row.push(Some(Box::new( Queen::new(Color::White))));
+		white_back_row.push(Some(Box::new(  King::new(Color::White))));
+		white_back_row.push(Some(Box::new(Bishop::new(Color::White))));
+		white_back_row.push(Some(Box::new(Knight::new(Color::White))));
+		white_back_row.push(Some(Box::new(  Rook::new(Color::White))));
 
 		let mut brown_back_row: Vec<Option<Box<dyn Piece>>> = Vec::new();
-		brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown, 7, 0))));
-		brown_back_row.push(Some(Box::new(Knight::new(Color::Brown, 7, 1))));
-		brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown, 7, 2))));
-		brown_back_row.push(Some(Box::new( Queen::new(Color::Brown, 7, 3))));
-		brown_back_row.push(Some(Box::new(  King::new(Color::Brown, 7, 4))));
-		brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown, 7, 5))));
-		brown_back_row.push(Some(Box::new(Knight::new(Color::Brown, 7, 6))));
-		brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown, 7, 7))));
+		brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(Knight::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new( Queen::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(  King::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(Bishop::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(Knight::new(Color::Brown))));
+		brown_back_row.push(Some(Box::new(  Rook::new(Color::Brown))));
 
 		let mut empty_row_one: Vec<Option<Box<dyn Piece>>> = Vec::new();
 		empty_row_one.push(None);

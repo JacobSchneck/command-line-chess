@@ -9,6 +9,7 @@ use std::fmt;
 
 use super::{location::Location, traits::Piece};
 
+#[derive(Clone)]
 pub struct Queen {
 	color: Color,
 	move_count: u32,

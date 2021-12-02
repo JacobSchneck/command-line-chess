@@ -25,20 +25,20 @@ impl Pawn {
 
 impl Piece for Pawn {
 	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
-		if self.move_count == 0 && (to.row as i32 - from.row as i32).abs() > 2 {
-			return Err("Cannot move pawn more than two spaces on first move");
-		} else if self.move_count > 0 && (to.row as i32 - from.row as i32).abs() > 1 {
-			return Err("Cannot move pawn more than one space vertically");
-		} else if to.row - from.row == 0 && to.col - from.col == 0 {
-			return Err("Please don't try and break my code");
-		} else if (to.col as i32 - from.col as i32).abs() > 1 {
-			return Err("Cannot move pawns diagonally more than one square");
-		} else if (to.col as i32 - from.col as i32).abs() == 1 && board[to.row][from.row].is_none() {
-			println!("Hi");
-			return Err("Can only move diagonally to capture");
-		} else if board[to.row][from.row].is_some() {
-			return Err("Can only capture diagonally with pawns");
-		}
+		// if self.move_count == 0 && (to.row as i32 - from.row as i32).abs() > 2 {
+		// 	return Err("Cannot move pawn more than two spaces on first move");
+		// } else if self.move_count > 0 && (to.row as i32 - from.row as i32).abs() > 1 {
+		// 	return Err("Cannot move pawn more than one space vertically");
+		// } else if to.row - from.row == 0 && to.col - from.col == 0 {
+		// 	return Err("Please don't try and break my code");
+		// } else if (to.col as i32 - from.col as i32).abs() > 1 {
+		// 	return Err("Cannot move pawns diagonally more than one square");
+		// } else if (to.col as i32 - from.col as i32).abs() == 1 && board[to.row][from.row].is_none() {
+		// 	println!("Hi");
+		// 	return Err("Can only move diagonally to capture");
+		// } else if board[to.row][from.row].is_some() {
+		// 	return Err("Can only capture diagonally with pawns");
+		// }
 		Ok(false)
 	}
 

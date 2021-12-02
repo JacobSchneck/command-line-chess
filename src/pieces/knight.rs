@@ -9,6 +9,7 @@ use std::fmt;
 
 use super::{location::Location, traits::Piece};
 
+#[derive(Clone)]
 pub struct Knight {
 	color: Color,
 	move_count: u16,

@@ -84,6 +84,18 @@ pub fn piece_check(piece: Pieces, piece_to_move: &Box<dyn Piece>, color: Color) 
 	return p.eq(piece_to_move.piece_to_string().trim());
 }
 
+pub fn in_bounds(row: i8, col: i8) -> bool {
+	let row_result = match row {
+		0..=7 => true,
+		_ => false,
+	};
+	let col_result = match col {
+		0..=7 => true,
+		_ => false,
+	};
+	row_result && col_result
+}
+
 #[cfg(test)]
 mod test_utils {
 	use super::*;
@@ -105,5 +117,13 @@ mod test_utils {
 		let piece_trait_object: Box<dyn Piece> = Box::new(Pawn::new(Color::White));
 		assert_eq!(piece_check(Pieces::Pawn, &piece_trait_object, Color::White), true);
 		assert_eq!(piece_check(Pieces::Rook, &piece_trait_object, Color::White), false);
+	}
+
+	#[test]
+	fn test_in_bounds() {
+		assert_eq!(in_bounds(6, -1), false);
+		assert_eq!(in_bounds(7, 0), true);
+		assert_eq!(in_bounds(7, 7), true);
+		assert_eq!(in_bounds(-7, -7), false);
 	}
 }

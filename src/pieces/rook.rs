@@ -6,7 +6,11 @@
 	dead_code
 )]
 
-use crate::enums::color::Color;
+use crate::{
+	enums::color::Color,
+	utils::in_bounds,
+};
+
 use ansi_term::Colour;
 use std::fmt;
 
@@ -29,6 +33,37 @@ impl Rook {
 
 impl Piece for Rook {
 	fn move_piece(&mut self, to: Location, from: Location, board: &mut Vec<Vec<Option<Box<dyn Piece>>>>) -> Result<bool, &str> {
+		let increments: Vec<Vec<i8>> = vec![
+			vec![1, 0],
+			vec![0, 1],
+			vec![-1, 0],
+			vec![0, -1],
+		];
+
+		let mut valid_moves = vec![vec![false; 8]; 8];
+		for i in 0..increments.len() {
+			let mut next_row = from.row as i8 + increments[i][0];
+			let mut next_col = from.col as i8 + increments[i][1];
+			while in_bounds(next_row, next_col) && board[next_row as usize][next_col as usize].is_none() {
+				valid_moves[next_row as usize][next_col as usize] = true;
+				next_row += increments[i][0];
+				next_col += increments[i][1];
+			}
+			if in_bounds(next_row, next_col) {
+				if let Some(p) = board[next_row as usize][next_col as usize].as_ref() {
+					if p.get_color() != self.color {
+						valid_moves[next_row as usize][next_col as usize] = true;
+					}
+				}
+			}
+		}
+
+		if !valid_moves[to.row][to.col] {
+			return Err("Rook can't do that, learn to play chess you dummy!")
+		}
+		if board[to.row][to.col].is_some() {
+			return Ok(true);
+		}
 		Ok(false)
 	}
 
